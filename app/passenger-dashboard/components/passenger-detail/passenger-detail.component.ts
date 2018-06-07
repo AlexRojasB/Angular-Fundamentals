@@ -1,8 +1,15 @@
-import { Component, Input, Output, EventEmitter } from "@angular/core";
+import {
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  OnChanges,
+  SimpleChanges
+} from "@angular/core";
 import { Passenger } from "../../models/passenger.interface";
 @Component({
   selector: "passenger-detail",
-  styleUrls: ['passenger-detail.component.scss'],
+  styleUrls: ["passenger-detail.component.scss"],
   template: `
     <div>
       <!--<h1 [innerHTML]="title" ></h1>
@@ -51,25 +58,32 @@ import { Passenger } from "../../models/passenger.interface";
     </div>
     `
 })
-export class PassengerDetailComponent {
-    @Input() detail:Passenger;
+export class PassengerDetailComponent implements OnChanges {
 
-    @Output() edit:EventEmitter<any> = new EventEmitter();
-
-    @Output() remove: EventEmitter<any> = new EventEmitter();
-    editing: boolean;
-    onNameChange(value:string){
-      this.detail.fullname = value;
+  ngOnChanges(changes: SimpleChanges): void {
+    if(changes.detail){
+      this.detail = Object.assign({}, changes.detail.currentValue);
     }
+  }
 
-    onRemove(){
-      this.remove.emit(this.detail);
-    }
+  @Input() detail: Passenger;
 
-    toggleEdit(){
-      if(this.editing){
-        this.edit.emit(this.detail);
-      }
-      this.editing = !this.editing;
+  @Output() edit: EventEmitter<any> = new EventEmitter();
+
+  @Output() remove: EventEmitter<any> = new EventEmitter();
+  editing: boolean;
+  onNameChange(value: string) {
+    this.detail.fullname = value;
+  }
+
+  onRemove() {
+    this.remove.emit(this.detail);
+  }
+
+  toggleEdit() {
+    if (this.editing) {
+      this.edit.emit(this.detail);
     }
+    this.editing = !this.editing;
+  }
 }
