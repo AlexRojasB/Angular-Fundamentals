@@ -17,8 +17,8 @@ import { PassengerDashboardService } from "../../passenger-dashboard.service";
 export class PassengerDashboardComponent implements OnInit {
   ngOnInit(): void {
     this.passengerService
-      .getPassenger()
-      .subscribe((data: Passenger[]) => (this.passengers = data));
+      .getPassengerPromise() //to use the promise alternative methods, just change subscribe to then
+      .then((data: Passenger[]) => (this.passengers = data));
   }
 
   passengers: Passenger[] = [];
