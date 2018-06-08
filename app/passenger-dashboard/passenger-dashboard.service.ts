@@ -4,7 +4,7 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/catch";
-import "rxjs/add/operator/throw";
+import "rxjs/add/Observable/throw";
 import "rxjs/add/operator/toPromise";
 
 const PASSENGER_API: string = "/api/passengers";
@@ -13,14 +13,21 @@ const PASSENGER_API: string = "/api/passengers";
 export class PassengerDashboardService {
   constructor(private http: Http) {}
 
-  getPassenger(): Observable<Passenger[]> {
+  getPassenger(id: number): Observable<Passenger> {
+    return this.http
+      .get(`${PASSENGER_API}/${id}`)
+      .map((response: Response) => response.json())
+      .catch((error: any) => Observable.throw(error.json()));
+  }
+
+  getPassengers(): Observable<Passenger[]> {
     return this.http
       .get(PASSENGER_API)
       .map((response: Response) => response.json())
       .catch((error: any) => Observable.throw(error.json()));
   }
 
-  getPassengerPromise(): Promise<Passenger[]> {
+  getPassengersPromise(): Promise<Passenger[]> {
     return this.http
       .get(PASSENGER_API)
       .toPromise()
