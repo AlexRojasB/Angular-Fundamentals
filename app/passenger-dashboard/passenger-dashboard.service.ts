@@ -3,7 +3,8 @@ import { Http, Response, Headers, RequestOptions } from "@angular/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/operator/map";
-
+import "rxjs/add/operator/catch";
+import "rxjs/add/operator/throw";
 import "rxjs/add/operator/toPromise";
 
 const PASSENGER_API: string = "/api/passengers";
@@ -15,7 +16,8 @@ export class PassengerDashboardService {
   getPassenger(): Observable<Passenger[]> {
     return this.http
       .get(PASSENGER_API)
-      .map((response: Response) => response.json());
+      .map((response: Response) => response.json())
+      .catch((error: any) => Observable.throw(error.json()));
   }
 
   getPassengerPromise(): Promise<Passenger[]> {
@@ -36,7 +38,8 @@ export class PassengerDashboardService {
 
     return this.http
       .put(`${PASSENGER_API}/${passenger.id}`, passenger, options)
-      .map((response: Response) => response.json());
+      .map((response: Response) => response.json())
+      .catch((error: any) => Observable.throw(error.json()));
   }
 
   updatePassengerPromise(passenger: Passenger): Promise<Passenger> {
@@ -57,7 +60,8 @@ export class PassengerDashboardService {
   removePassenger(passenger: Passenger): Observable<Passenger> {
     return this.http
       .delete(`${PASSENGER_API}/${passenger.id}`)
-      .map((response: Response) => response.json());
+      .map((response: Response) => response.json())
+      .catch((error: any) => Observable.throw(error.json()));
   }
 
   removePassengerPromise(passenger: Passenger): Promise<Passenger> {
