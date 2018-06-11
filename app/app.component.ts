@@ -5,7 +5,9 @@ import { Component } from "@angular/core";
   styleUrls: ["app.component.scss"],
   template: `
     <div class="app">
-  <router-outlet></router-outlet>
+    <a routerLink="/"> Home</a>
+    <a routerLink="/oops">404</a>
+      <router-outlet></router-outlet>
     </div>
   `
 })
