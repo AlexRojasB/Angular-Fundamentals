@@ -2,9 +2,9 @@ import { Component, Input } from "@angular/core";
 import { Passenger } from "../../models/passenger.interface";
 
 @Component({
-    selector: 'passenger-form',
-    styleUrls: ['passenger-form.component.scss'],
-    template: `
+  selector: "passenger-form",
+  styleUrls: ["passenger-form.component.scss"],
+  template: `
     <form #form="ngForm" novalidate>
     {{detail | json}}
     <div>
@@ -18,11 +18,14 @@ import { Passenger } from "../../models/passenger.interface";
     </div>
     <div>
     <label>
+    <input type="checkbox" name="checkedIn" [ngModel]="detail?.checkedIn" (ngModelChange)="toggleCheckIn($event)">
+    </label>
+  <!--  <label>
     <input type="radio" [value]="true" name="checkedIn" [ngModel]="detail?.checkedIn" (ngModelChange)="toggleCheckIn($event)"> Yes
     </label>
     <label>
     <input type="radio" [value]="false" name="checkedIn" [ngModel]="detail?.checkedIn" (ngModelChange)="toggleCheckIn($event)"> No
-    </label>
+    </label> -->
     </div>
     <div *ngIf="form.value.checkedIn">
     Check in date:
@@ -32,15 +35,13 @@ import { Passenger } from "../../models/passenger.interface";
     </form>
     `
 })
-export class PassengerFormComponent{
-    @Input() detail:Passenger;
-    constructor(){
+export class PassengerFormComponent {
+  @Input() detail: Passenger;
+  constructor() {}
 
+  toggleCheckIn(checkedIn: boolean) {
+    if (checkedIn) {
+      this.detail.checkInDate = Date.now();
     }
-
-    toggleCheckIn(checkedIn: boolean){
-        if(checkedIn){
-            this.detail.checkInDate = Date.now();
-        }
-    }
+  }
 }
