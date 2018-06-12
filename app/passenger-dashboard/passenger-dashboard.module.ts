@@ -11,7 +11,14 @@ import { PassengerFormComponent } from "./components/passenger-form/passenger-fo
 import { RouterModule, Routes } from "@angular/router";
 
 const routes: Routes = [{
-    path: 'passengers', component: PassengerDashboardComponent
+    path: 'passengers',  children:[
+        {
+            path: '', component: PassengerDashboardComponent
+        },
+        {
+            path: ':id', component: PassengerViewerComponent
+        }
+    ]
 }]
 
 @NgModule({
